@@ -1,0 +1,11 @@
+.spinner-border{
+    // position: absolute;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    color: #e68608; 
+    z-index: 100;
+  }
+  .is-hidden{
+    display: none;
+  }
