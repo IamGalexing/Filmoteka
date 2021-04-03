@@ -23,6 +23,7 @@ const refs = {
   headerBg: document.querySelector('.header__background'),
   searchWrap: document.querySelector('.search__input-wrapper'),
   libraryBtnsContainer: document.querySelector('.button-container'),
+  preload: document.querySelector('.preload'),
 };
 
 export default refs;
