@@ -20,18 +20,15 @@ modal.addEventListener('click', event => {
   }
 
   if (event.target.classList.contains('modal-button-watched')) {
-<<<<<<< Updated upstream
     console.log('Здесь будет callback от Андрея');
   }
   if (event.target.classList.contains('modal-button-queue')) {
-=======
     const toWatched = [];
    toWatched.push(MovieObj.fetchMovie(event.target.id));
     localStorage.setItem('watchedFilms', JSON.stringify(toWatched));
     console.log(toWatched);
 }
 if (event.target.classList.contains('modal-button-queue')) {
->>>>>>> Stashed changes
     console.log('Здесь тоже будет callback от Андрея');
   }
 });
