@@ -14,7 +14,7 @@ const pagination = new Pagination();
 let year = '';
 let genre = '';
 spinner.showSpinner();
-refs.chooseGenre.addEventListener('change', event => {
+refs.genrePicker.addEventListener('change', event => {
   fetchPopularMovie.resetPage();
   if (event.target.value === '') {
     fetchPopularMovie.fetchPopular().then(res => {
@@ -31,7 +31,7 @@ refs.chooseGenre.addEventListener('change', event => {
   }
 });
 
-refs.chooseYear.addEventListener('change', event => {
+refs.yearPicker.addEventListener('change', event => {
   fetchPopularMovie.resetPage();
   if (event.target.value === '') {
     fetchPopularMovie.fetchPopular().then(res => {
@@ -86,16 +86,6 @@ function transformMovieObject(movies) {
 function scrollWin() {
   window.scrollTo(0, 230);
 }
-
-const yearpicker = function () {
-  let startYear = 1900;
-  let endYear = new Date().getFullYear();
-  $('#yearpicker').append($('<option />').val('').html('Choose year'));
-  for (let i = endYear; i > startYear; i--) {
-    $('#yearpicker').append($('<option />').val(i).html(i));
-  }
-};
-yearpicker();
 
 //pagination callbacks
 const showPrevPage = () => {
