@@ -101,5 +101,3 @@ function yearPickerMenu() {
   }
   refs.yearPicker.insertAdjacentHTML('beforeend', years);
 };
-
-
