@@ -63,6 +63,11 @@ function createCard(genre, year) {
         movieFilter.page,
         res.total_results,
       );
+    } else {
+      console.log('else');
+      paginationWrapper.innerHTML = null;
+      paginationPrevButton.classList.add('hidden');
+      paginationNextButton.classList.add('hidden');
     }
     spinner.hideSpinner();
   });
@@ -112,9 +117,15 @@ function yearPickerMenu() {
   let endYear = new Date().getFullYear();
   console.log(startYear, endYear);
 
-  refs.yearPicker.insertAdjacentHTML('beforeend', '<option value="">Choose year</option>');
+  refs.yearPicker.insertAdjacentHTML(
+    'beforeend',
+    '<option value="">Choose year</option>',
+  );
   for (let i = endYear; i > startYear; i--) {
-    refs.yearPicker.insertAdjacentHTML('beforeend', `<option value="${i}">${i}</option>`);
+    refs.yearPicker.insertAdjacentHTML(
+      'beforeend',
+      `<option value="${i}">${i}</option>`,
+    );
   }
-};
+}
 yearPickerMenu();

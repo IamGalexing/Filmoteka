@@ -22,6 +22,9 @@ libraryBtn.addEventListener('click', e => hendlerLibraryBtn(e));
 function hendlerHomeBtn(e) {
   libraryBtn.disabled = false;
   homeBtn.disabled = true;
+  refs.watchedBtn.disabled = false;
+  refs.queueBtn.disabled = false;
+  
   headerBg.classList.remove('library__background');
   libraryBtn.classList.remove('current');
   homeBtn.classList.add('current');
@@ -36,6 +39,8 @@ function hendlerHomeBtn(e) {
 function hendlerLibraryBtn(e) {
   libraryBtn.disabled = true;
   homeBtn.disabled = false;
+  refs.watchedBtn.disabled = false;
+  refs.queueBtn.disabled = false;
 
   homeBtn.classList.remove('current');
   libraryBtn.classList.add('current');
