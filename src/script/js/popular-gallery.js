@@ -29,6 +29,11 @@ function createCard() {
           fetchPopularMovie.page,
           res.total_results,
         );
+      } else {
+        console.log('else');
+        paginationWrapper.innerHTML = null;
+        paginationPrevButton.classList.add('hidden');
+        paginationNextButton.classList.add('hidden');
       }
       spinner.hideSpinner();
     })
