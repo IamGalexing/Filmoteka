@@ -27,10 +27,14 @@ export default class FilmsStorage {
   addToWatchedFilm(item) {
     this._watchedFilms.push(item);
     this.saveWatchedFilms();
+    if (refs.libraryBtn.disabled && refs.watchedBtn.disabled)
+      this.showWatchedFilms();
   }
   removeWathedFilm(item) {
     this._watchedFilms.splice(this._watchedFilms.indexOf(item), 1);
     this.saveWatchedFilms();
+    if (refs.libraryBtn.disabled && refs.watchedBtn.disabled)
+      this.showWatchedFilms();
   }
   saveWatchedFilms() {
     localStorage.setItem('watched-films', JSON.stringify(this._watchedFilms));
@@ -45,6 +49,10 @@ export default class FilmsStorage {
   }
   showWatchedFilms() {
     const savedFilms = localStorage.getItem('watched-films');
+    refs.watchedBtn.disabled = true;
+    refs.watchedBtn.classList.add('.active');
+    refs.queueBtn.disabled = false;
+    refs.queueBtn.classList.remove('.active');
     if (!savedFilms) {
       PNotify.info({
         text: 'Your watchedlist is empty.',
@@ -72,10 +80,14 @@ export default class FilmsStorage {
   addToQueue(item) {
     this._filmsQueue.push(item);
     this.saveFilmsQueue();
+    if (refs.libraryBtn.disabled && refs.queueBtn.disabled)
+      this.showFilmsQueue();
   }
   removeFromQueue(item) {
     this._filmsQueue.splice(this._filmsQueue.indexOf(item), 1);
     this.saveFilmsQueue();
+    if (refs.libraryBtn.disabled && refs.queueBtn.disabled)
+      this.showFilmsQueue();
   }
   saveFilmsQueue() {
     localStorage.setItem('films-queue', JSON.stringify(this._filmsQueue));
@@ -85,16 +97,21 @@ export default class FilmsStorage {
         .doc(user.uid)
         .collection('Queue')
         .doc('Markup')
-        .set({ list: localStorage.getItem('watched-films') });
+        .set({ list: localStorage.getItem('films-queue') });
     }
   }
   showFilmsQueue() {
     const queue = localStorage.getItem('films-queue');
+    refs.queueBtn.disabled = true;
+    refs.queueBtn.classList.add('.active');
+    refs.watchedBtn.disabled = false;
+    refs.watchedBtn.classList.remove('.active');
     if (!queue) {
       PNotify.info({
         text: 'Your queue is empty.',
         delay: 1000,
       });
+
       return;
     }
     let filmsQueueMarkup = '';
