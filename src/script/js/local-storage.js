@@ -97,7 +97,7 @@ export default class FilmsStorage {
         .doc(user.uid)
         .collection('Queue')
         .doc('Markup')
-        .set({ list: localStorage.getItem('watched-films') });
+        .set({ list: localStorage.getItem('films-queue') });
     }
   }
   showFilmsQueue() {
