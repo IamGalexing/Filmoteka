@@ -95,17 +95,11 @@ function yearPickerMenu() {
   let endYear = new Date().getFullYear();
   let years =[];
 
-  refs.yearPicker.insertAdjacentHTML(
-    'beforeend',
-    '<option value="">Choose year</option>',
-  );
+  refs.yearPicker.insertAdjacentHTML('beforeend', '<option value="">Choose year</option>');
   for (let i = endYear; i > startYear; i--) {
-
-    refs.yearPicker.insertAdjacentHTML(
-      'beforeend',
-      `<option value="${i}">${i}</option>`,
-    );
+    years.push(`<option value="${i}">${i}</option>`);
   }
-}
-yearPickerMenu();
+  refs.yearPicker.insertAdjacentHTML('beforeend', years);
+};
+
 
