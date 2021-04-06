@@ -58,6 +58,7 @@ export default class FilmsStorage {
         text: 'Your watchedlist is empty.',
         delay: 1000,
       });
+      refs.gallery.innerHTML = null;
       return;
     }
     let watchedFilmsMarkup = '';
@@ -111,7 +112,7 @@ export default class FilmsStorage {
         text: 'Your queue is empty.',
         delay: 1000,
       });
-
+      refs.gallery.innerHTML = null;
       return;
     }
     let filmsQueueMarkup = '';
