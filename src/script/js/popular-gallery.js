@@ -4,14 +4,24 @@ import createMarkup from '../templates/galleryCard.hbs';
 import Pagination from './pagination-api';
 import settings from './settings';
 import Search from './spinner';
+import {
+  showPrevFilterPage,
+  showNextFilterPage,
+  showSelectedFilterPage,
+} from './movieFilter';
+import {
+  showPrevSearchPage,
+  showNextSearchPage,
+  showSelectedSearchPage,
+} from './search';
 
 const fetchPopularMovie = new PopularFilms();
 const pagination = new Pagination();
 
 const spinner = new Search();
-spinner.showSpinner();
 
 function createCard() {
+  spinner.showSpinner();
   fetchPopularMovie
     .fetchPopular()
     .then(res => {
@@ -22,9 +32,36 @@ function createCard() {
       if (res.total_results > 20) {
         refs.paginationPrevButton.classList.remove('hidden');
         refs.paginationNextButton.classList.remove('hidden');
-        refs.paginationPrevButton.addEventListener('click', showPrevPage);
-        refs.paginationNextButton.addEventListener('click', showNextPage);
-        refs.paginationWrapper.addEventListener('click', showSelectedPage);
+
+        refs.paginationPrevButton.removeEventListener(
+          'click',
+          showPrevFilterPage,
+        );
+        refs.paginationNextButton.removeEventListener(
+          'click',
+          showNextFilterPage,
+        );
+        refs.paginationWrapper.removeEventListener(
+          'click',
+          showSelectedFilterPage,
+        );
+
+        refs.paginationPrevButton.removeEventListener(
+          'click',
+          showPrevSearchPage,
+        );
+        refs.paginationNextButton.removeEventListener(
+          'click',
+          showNextSearchPage,
+        );
+        refs.paginationWrapper.removeEventListener(
+          'click',
+          showSelectedSearchPage,
+        );
+
+        refs.paginationPrevButton.addEventListener('click', showPrevPopPage);
+        refs.paginationNextButton.addEventListener('click', showNextPopPage);
+        refs.paginationWrapper.addEventListener('click', showSelectedPopPage);
         refs.paginationWrapper.innerHTML = pagination.renderPaginationMarkup(
           fetchPopularMovie.page,
           res.total_results,
@@ -55,18 +92,18 @@ function transformMovieObject(movies) {
   });
   return movies;
 }
-const showPrevPage = () => {
+const showPrevPopPage = () => {
   if (fetchPopularMovie.page < 2) return;
   fetchPopularMovie.decrementPage();
   createCard();
 };
-const showNextPage = () => {
+const showNextPopPage = () => {
   const activePageNumber = document.querySelector('li.active');
   if (fetchPopularMovie.page === activePageNumber.textContent) return;
   fetchPopularMovie.incrementPage();
   createCard();
 };
-const showSelectedPage = e => {
+const showSelectedPopPage = e => {
   if (e.target.nodeName === 'LI') {
     if (isNaN(e.target.textContent)) return;
     fetchPopularMovie.page = e.target.textContent;
@@ -78,3 +115,4 @@ function scrollWin() {
 }
 
 export default createCard;
+export { showPrevPopPage, showNextPopPage, showSelectedPopPage };
