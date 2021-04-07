@@ -39,9 +39,9 @@ function hendlerHomeBtn(e) {
   createCard();
   paginationContainer.classList.remove('visually-hidden');
   for (let i = 0; i < btns.length; i++) {
-    const current = libraryBtnsContainer.getElementsByClassName(' active');
+    const current = libraryBtnsContainer.getElementsByClassName('activeBtn');
     if (current.length > 0) {
-      current[i].classList.remove('active');
+      current[i].classList.remove('activeBtn');
     }
   }
   yearPicker.value = '';
@@ -63,7 +63,7 @@ function hendlerLibraryBtn(e) {
   gallery.innerHTML = '';
   filmsStorage.showWatchedFilms();
   if (gallery.textContent) {
-    watchedBtn.classList.add('active');
+    watchedBtn.classList.add('activeBtn');
   }
   paginationContainer.classList.add('visually-hidden');
 }
@@ -75,12 +75,12 @@ const btns = libraryBtnsContainer.getElementsByClassName('button');
 
 for (let i = 0; i < btns.length; i++) {
   btns[i].addEventListener('click', function () {
-    const current = libraryBtnsContainer.getElementsByClassName(' active');
+    const current = libraryBtnsContainer.getElementsByClassName('activeBtn');
 
     if (current.length > 0) {
-      current[0].className = current[0].className.replace(' active', '');
+      current[0].className = current[0].className.replace('activeBtn', '');
     }
 
-    this.className += ' active';
+    this.className += 'activeBtn';
   });
 }

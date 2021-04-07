@@ -30,7 +30,6 @@ function createCard() {
           res.total_results,
         );
       } else {
-        console.log('else');
         refs.paginationWrapper.innerHTML = null;
         refs.paginationPrevButton.classList.add('hidden');
         refs.paginationNextButton.classList.add('hidden');
@@ -61,7 +60,7 @@ const showPrevPage = () => {
   fetchPopularMovie.decrementPage();
   createCard();
 };
-const showNextPage = totalResults => {
+const showNextPage = () => {
   const activePageNumber = document.querySelector('li.active');
   if (fetchPopularMovie.page === activePageNumber.textContent) return;
   fetchPopularMovie.incrementPage();
