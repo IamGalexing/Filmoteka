@@ -15,13 +15,13 @@ const pagination = new Pagination();
 
 yearPickerMenu();
 
-
 let yearValue = '';
 let genreValue = '';
 
 refs.filterInput.forEach(item => {
   item.addEventListener('change', event => {
     movieFilter.resetPage();
+    refs.searchInput.value = '';
     yearValue = refs.yearPicker.value;
     genreValue = refs.genrePicker.value;
     createCard(genreValue, yearValue);

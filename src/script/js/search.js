@@ -26,6 +26,8 @@ const {
   paginationContainer,
   searchWrap,
   spinner,
+  genrePicker,
+  yearPicker,
 } = refs;
 const { reservImg } = CONST;
 
@@ -44,6 +46,8 @@ searchInputRef.addEventListener(
 function hendlerInput(e) {
   apiSearchData.query = e;
   // gallery.innerHTML = '';
+  genrePicker.value = '';
+  yearPicker.value = '';
   if (searchInputRef.value === '') {
     searchWrap.classList.remove('without-after-el');
     return;
