@@ -49,7 +49,6 @@ function hendlerInput(e) {
         gallery.innerHTML = createMarkup(transformMovieObject(res.results));
         // pagination
         if (res.total_results > 20) {
-          console.log('res.total_results', res.total_results);
           noResultRef.textContent = '';
           paginationContainer.classList.remove('visually-hidden');
           paginationPrevButton.classList.remove('hidden');
@@ -62,7 +61,6 @@ function hendlerInput(e) {
             res.total_results,
           );
         } else {
-          console.log('else');
           paginationWrapper.innerHTML = null;
           paginationPrevButton.classList.add('hidden');
           paginationNextButton.classList.add('hidden');
