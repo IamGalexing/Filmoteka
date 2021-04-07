@@ -7,9 +7,8 @@ import movieCard from '../templates/movieCard.hbs';
 import FilmsStorage from './local-storage';
 
 const { reservImg } = settings;
-const movieInfo = new MovieApi();
 const { gallery } = refs;
-const { modal } = refs;
+const movieInfo = new MovieApi();
 const lightbox = new Lightbox();
 const filmsStorage = new FilmsStorage();
 
