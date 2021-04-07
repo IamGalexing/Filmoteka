@@ -30,8 +30,8 @@ export default class FilmsStorage {
     if (refs.libraryBtn.disabled && refs.watchedBtn.disabled)
       this.showWatchedFilms();
   }
-  removeWathedFilm(item) {
-    this._watchedFilms.splice(this._watchedFilms.indexOf(item), 1);
+  removeWathedFilm(index) {
+    this._watchedFilms.splice(index, 1);
     this.saveWatchedFilms();
     if (refs.libraryBtn.disabled && refs.watchedBtn.disabled)
       this.showWatchedFilms();
@@ -84,8 +84,8 @@ export default class FilmsStorage {
     if (refs.libraryBtn.disabled && refs.queueBtn.disabled)
       this.showFilmsQueue();
   }
-  removeFromQueue(item) {
-    this._filmsQueue.splice(this._filmsQueue.indexOf(item), 1);
+  removeFromQueue(index) {
+    this._filmsQueue.splice(index, 1);
     this.saveFilmsQueue();
     if (refs.libraryBtn.disabled && refs.queueBtn.disabled)
       this.showFilmsQueue();

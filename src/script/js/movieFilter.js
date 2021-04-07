@@ -43,9 +43,9 @@ function createCard(genre, year) {
       );
     } else {
       console.log('else');
-      paginationWrapper.innerHTML = null;
-      paginationPrevButton.classList.add('hidden');
-      paginationNextButton.classList.add('hidden');
+      refs.paginationWrapper.innerHTML = null;
+      refs.paginationPrevButton.classList.add('hidden');
+      refs.paginationNextButton.classList.add('hidden');
     }
     spinner.hideSpinner();
   });
