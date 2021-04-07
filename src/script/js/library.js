@@ -28,7 +28,7 @@ function hendlerHomeBtn(e) {
   homeBtn.disabled = true;
   refs.watchedBtn.disabled = false;
   refs.queueBtn.disabled = false;
-  
+
   headerBg.classList.remove('library__background');
   libraryBtn.classList.remove('current');
   homeBtn.classList.add('current');
@@ -75,12 +75,12 @@ const btns = libraryBtnsContainer.getElementsByClassName('button');
 
 for (let i = 0; i < btns.length; i++) {
   btns[i].addEventListener('click', function () {
-    const current = libraryBtnsContainer.getElementsByClassName('activeBtn');
+    const current = libraryBtnsContainer.getElementsByClassName(' activeBtn');
 
     if (current.length > 0) {
-      current[0].className = current[0].className.replace('activeBtn', '');
+      current[0].className = current[0].className.replace(' activeBtn', '');
     }
 
-    this.className += 'activeBtn';
+    this.className += ' activeBtn';
   });
 }
