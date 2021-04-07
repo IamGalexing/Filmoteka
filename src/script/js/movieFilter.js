@@ -42,7 +42,6 @@ function createCard(genre, year) {
         res.total_results,
       );
     } else {
-      console.log('else');
       refs.paginationWrapper.innerHTML = null;
       refs.paginationPrevButton.classList.add('hidden');
       refs.paginationNextButton.classList.add('hidden');
@@ -76,7 +75,7 @@ const showPrevPage = () => {
   movieFilter.decrementPage();
   createCard(genreValue, yearValue);
 };
-const showNextPage = totalResults => {
+const showNextPage = () => {
   const activePageNumber = document.querySelector('li.active');
   if (movieFilter.page === activePageNumber.textContent) return;
   movieFilter.incrementPage();
