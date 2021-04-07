@@ -16,6 +16,8 @@ const {
   paginationContainer,
   filter,
   watchedBtn,
+  yearPicker,
+  genrePicker,
 } = refs;
 
 homeBtn.addEventListener('click', e => hendlerHomeBtn(e));
@@ -42,6 +44,8 @@ function hendlerHomeBtn(e) {
       current[i].classList.remove('active');
     }
   }
+  yearPicker.value = '';
+  genrePicker.value = '';
 }
 
 function hendlerLibraryBtn(e) {

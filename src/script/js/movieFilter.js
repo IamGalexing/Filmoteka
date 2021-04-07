@@ -43,9 +43,9 @@ function createCard(genre, year) {
       );
     } else {
       console.log('else');
-      paginationWrapper.innerHTML = null;
-      paginationPrevButton.classList.add('hidden');
-      paginationNextButton.classList.add('hidden');
+      refs.paginationWrapper.innerHTML = null;
+      refs.paginationPrevButton.classList.add('hidden');
+      refs.paginationNextButton.classList.add('hidden');
     }
     spinner.hideSpinner();
   });
@@ -95,17 +95,9 @@ function yearPickerMenu() {
   let endYear = new Date().getFullYear();
   let years =[];
 
-  refs.yearPicker.insertAdjacentHTML(
-    'beforeend',
-    '<option value="">Choose year</option>',
-  );
+  refs.yearPicker.insertAdjacentHTML('beforeend', '<option value="">Choose year</option>');
   for (let i = endYear; i > startYear; i--) {
-
-    refs.yearPicker.insertAdjacentHTML(
-      'beforeend',
-      `<option value="${i}">${i}</option>`,
-    );
+    years.push(`<option value="${i}">${i}</option>`);
   }
-}
-yearPickerMenu();
-
+  refs.yearPicker.insertAdjacentHTML('beforeend', years);
+};

@@ -7,9 +7,8 @@ import movieCard from '../templates/movieCard.hbs';
 import FilmsStorage from './local-storage';
 
 const { reservImg } = settings;
-const movieInfo = new MovieApi();
 const { gallery } = refs;
-const { modal } = refs;
+const movieInfo = new MovieApi();
 const lightbox = new Lightbox();
 const filmsStorage = new FilmsStorage();
 
@@ -32,6 +31,7 @@ const createMarkup = function (event) {
       id: event.target.id,
       element: event.target.parentNode.innerHTML,
     };
+    console.log(curElement);
     const addToWathedBtn = document.querySelector('.modal-button-watched');
     const addToQueueBtn = document.querySelector('.modal-button-queue');
 
@@ -52,7 +52,11 @@ const createMarkup = function (event) {
         addToWathedBtn.classList.replace('ableToAdd', 'ableToRemove');
         addToWathedBtn.textContent = 'remove from viewed';
       } else {
-        filmsStorage.removeWathedFilm(curElement);
+        const index = filmsStorage.watchedFilms.findIndex(
+          film => film.id === curElement.id,
+        );
+        filmsStorage.removeWathedFilm(index);
+
         addToWathedBtn.classList.replace('ableToRemove', 'ableToAdd');
         addToWathedBtn.textContent = 'add to watched';
       }
@@ -75,7 +79,10 @@ const createMarkup = function (event) {
         addToQueueBtn.classList.replace('ableToAdd', 'ableToRemove');
         addToQueueBtn.textContent = 'remove from queue';
       } else {
-        filmsStorage.removeFromQueue(curElement);
+        const index = filmsStorage.filmsQueue.findIndex(
+          film => film.id === curElement.id,
+        );
+        filmsStorage.removeFromQueue(index);
         addToQueueBtn.classList.replace('ableToRemove', 'ableToAdd');
         addToQueueBtn.textContent = 'add to queue';
       }
