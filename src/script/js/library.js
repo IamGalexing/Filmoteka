@@ -19,7 +19,7 @@ const {
 homeBtn.addEventListener('click', e => hendlerHomeBtn(e));
 libraryBtn.addEventListener('click', e => hendlerLibraryBtn(e));
 
-function hendlerHomeBtn(e) {
+export default function hendlerHomeBtn(e) {
   libraryBtn.disabled = false;
   homeBtn.disabled = true;
   headerBg.classList.remove('library__background');
