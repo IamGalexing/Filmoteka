@@ -1,11 +1,10 @@
 import refs from './refs';
-import Pagination from './pagination-api';
 import 'firebase/auth';
 import 'firebase/firestore';
 import firebase from 'firebase/app';
 import PNotify from '../../../node_modules/pnotify/dist/es/PNotify.js';
 
-const pagination = new Pagination();
+
 
 const firebaseConfig = {
   apiKey: 'AIzaSyD5Lz8Xolb4aTDugqG9oqiD3TvNrCFheKg',
@@ -50,9 +49,7 @@ export default class FilmsStorage {
   showWatchedFilms() {
     const savedFilms = localStorage.getItem('watched-films');
     refs.watchedBtn.disabled = true;
-    refs.watchedBtn.classList.add('.active');
     refs.queueBtn.disabled = false;
-    refs.queueBtn.classList.remove('.active');
     if (!savedFilms) {
       PNotify.info({
         text: 'Your watchedlist is empty.',
@@ -104,9 +101,7 @@ export default class FilmsStorage {
   showFilmsQueue() {
     const queue = localStorage.getItem('films-queue');
     refs.queueBtn.disabled = true;
-    refs.queueBtn.classList.add('.active');
     refs.watchedBtn.disabled = false;
-    refs.watchedBtn.classList.remove('.active');
     if (!queue) {
       PNotify.info({
         text: 'Your queue is empty.',

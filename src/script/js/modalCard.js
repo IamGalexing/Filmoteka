@@ -31,7 +31,6 @@ const createMarkup = function (event) {
       id: event.target.id,
       element: event.target.parentNode.innerHTML,
     };
-    console.log(curElement);
     const addToWathedBtn = document.querySelector('.modal-button-watched');
     const addToQueueBtn = document.querySelector('.modal-button-queue');
 
