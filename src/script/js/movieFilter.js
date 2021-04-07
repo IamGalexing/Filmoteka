@@ -5,6 +5,8 @@ import createMarkup from '../templates/galleryCard.hbs';
 import settings from './settings';
 import Search from './spinner';
 import Pagination from './pagination-api';
+import {showPrevPopPage, showNextPopPage, showSelectedPopPage} from './popular-gallery';
+import {showPrevSearchPage, showNextSearchPage, showSelectedSearchPage} from './search';
 
 const spinner = new Search();
 const movieFilter = new MovieFilter();
@@ -12,7 +14,7 @@ const fetchPopularMovie = new PopularFilms();
 const pagination = new Pagination();
 
 yearPickerMenu();
-spinner.showSpinner();
+
 
 let yearValue = '';
 let genreValue = '';
@@ -23,26 +25,36 @@ refs.filterInput.forEach(item => {
     yearValue = refs.yearPicker.value;
     genreValue = refs.genrePicker.value;
     createCard(genreValue, yearValue);
-  })
+  });
 });
 
 function createCard(genre, year) {
   movieFilter.fetchMovies(genre, year).then(res => {
     scrollWin();
+    spinner.showSpinner();
     refs.gallery.innerHTML = createMarkup(transformMovieObject(res.results));
     // pagination
     if (res.total_results > 20) {
       refs.paginationPrevButton.classList.remove('hidden');
       refs.paginationNextButton.classList.remove('hidden');
-      refs.paginationPrevButton.addEventListener('click', showPrevPage);
-      refs.paginationNextButton.addEventListener('click', showNextPage);
-      refs.paginationWrapper.addEventListener('click', showSelectedPage);
+
+      refs.paginationPrevButton.removeEventListener('click', showPrevPopPage);
+      refs.paginationNextButton.removeEventListener('click', showNextPopPage);
+      refs.paginationWrapper.removeEventListener('click', showSelectedPopPage);
+
+      refs.paginationPrevButton.removeEventListener('click', showPrevSearchPage);
+      refs.paginationNextButton.removeEventListener('click', showNextSearchPage);
+      refs.paginationWrapper.removeEventListener('click', showSelectedSearchPage);
+
+      refs.paginationPrevButton.addEventListener('click', showPrevFilterPage);
+      refs.paginationNextButton.addEventListener('click', showNextFilterPage);
+      refs.paginationWrapper.addEventListener('click', showSelectedFilterPage);
       refs.paginationWrapper.innerHTML = pagination.renderPaginationMarkup(
         movieFilter.page,
         res.total_results,
       );
     } else {
-      refs.paginationWrapper.innerHTML = null;
+      // refs.paginationWrapper.innerHTML = null;
       refs.paginationPrevButton.classList.add('hidden');
       refs.paginationNextButton.classList.add('hidden');
     }
@@ -70,18 +82,18 @@ function scrollWin() {
 }
 
 //pagination callbacks
-const showPrevPage = () => {
+const showPrevFilterPage = () => {
   if (movieFilter.page < 2) return;
   movieFilter.decrementPage();
   createCard(genreValue, yearValue);
 };
-const showNextPage = () => {
+const showNextFilterPage = () => {
   const activePageNumber = document.querySelector('li.active');
   if (movieFilter.page === activePageNumber.textContent) return;
   movieFilter.incrementPage();
   createCard(genreValue, yearValue);
 };
-const showSelectedPage = e => {
+const showSelectedFilterPage = e => {
   if (e.target.nodeName === 'LI') {
     if (isNaN(e.target.textContent)) return;
     movieFilter.page = e.target.textContent;
@@ -92,11 +104,15 @@ const showSelectedPage = e => {
 function yearPickerMenu() {
   let startYear = 1900;
   let endYear = new Date().getFullYear();
-  let years =[];
+  let years = [];
 
-  refs.yearPicker.insertAdjacentHTML('beforeend', '<option value="">Choose year</option>');
+  refs.yearPicker.insertAdjacentHTML(
+    'beforeend',
+    '<option value="">Choose year</option>',
+  );
   for (let i = endYear; i > startYear; i--) {
     years.push(`<option value="${i}">${i}</option>`);
   }
   refs.yearPicker.insertAdjacentHTML('beforeend', years);
-};
+}
+export {showPrevFilterPage, showNextFilterPage, showSelectedFilterPage}
