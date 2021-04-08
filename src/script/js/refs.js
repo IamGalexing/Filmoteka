@@ -32,6 +32,7 @@ const refs = {
   queueBtn: document.querySelector('.queue-button'),
   filter: document.querySelector('.filter-section'),
   searchInput: document.querySelector('.search__input'),
+  scrollToTopBtn: document.querySelector('.scrollToTopBtn'),
 };
 
 export default refs;

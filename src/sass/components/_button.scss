@@ -59,3 +59,31 @@
   margin-bottom: 20px;
   opacity: 1;
 }
+
+.scrollToTopBtn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+
+  z-index: 100;
+  opacity: 0;
+  transform: translateY(100px);
+
+  transition: all 0.5s ease;
+
+  
+  background-image: linear-gradient(#bdc3c7c4, #2c3e50ad);
+  border: none;
+  outline: white;
+  border-radius: 50%;
+  color: $color-light;
+  cursor: pointer;
+  font-size: 24px;
+  line-height: 48px;
+  width: 48px;
+}
+
+.showBtn {
+  opacity: 1;
+  transform: translateY(0);
+}
