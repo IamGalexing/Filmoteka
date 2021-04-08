@@ -14,9 +14,6 @@ const filmsStorage = new FilmsStorage();
 
 gallery.addEventListener('click', event => lightbox.openLightbox(event));
 
-filmsStorage.getWathedListFromLS();
-filmsStorage.getQueueFromLS();
-
 const createMarkup = function (event) {
   movieInfo.fetchMovie(event.target.id).then(result => {
     result.poster_path

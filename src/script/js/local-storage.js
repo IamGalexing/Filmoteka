@@ -43,7 +43,7 @@ export default class FilmsStorage {
         .doc(user.uid)
         .collection('Watched')
         .doc('Markup')
-        .set({ list: localStorage.getItem('watched-films') });
+        .set({ list: JSON.stringify(this._watchedFilms) });
     }
   }
   showWatchedFilms() {
@@ -95,7 +95,7 @@ export default class FilmsStorage {
         .doc(user.uid)
         .collection('Queue')
         .doc('Markup')
-        .set({ list: localStorage.getItem('films-queue') });
+        .set({ list: JSON.stringify(this._filmsQueue) });
     }
   }
   showFilmsQueue() {
