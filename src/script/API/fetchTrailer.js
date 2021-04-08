@@ -26,7 +26,7 @@ export default class runTrailer {
   }
 
   markupTrailer(id) {
-    return `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" frameborder="0" allow="autoplay; fullscreen" class="trailer-tag"></iframe>`;
+    return `<iframe src="https://www.youtube.com/embed/${id}?rel=0&autoplay=1" frameborder="0" allow="autoplay; fullscreen" class="trailer-tag" include></iframe>`;
   }
 
   showTrailerModal(markup) {
