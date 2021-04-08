@@ -54,7 +54,6 @@
     "core-js": "^3.6.5",
     "firebase": "^8.3.1",
     "handlebars": "^4.7.6",
-    "lodash.throttle": "^4.1.1",
     "movie-trailer": "^2.1.0",
     "normalize.css": "^8.0.1",
     "pagination": "^0.4.6",
