@@ -70,6 +70,7 @@ refs.registerForm.addEventListener('submit', e => {
       e.target.email.value = null;
       e.target.pass.value = null;
       e.target.secondpass.value = null;
+      window.location.reload(); //!
     })
     .catch(error => {
       document.querySelector('.signup-wpapper').classList.remove('load');
@@ -105,6 +106,7 @@ refs.loginForm.addEventListener('submit', e => {
       refs.signInModal.classList.add('is-hidden');
       e.target.email.value = null;
       e.target.pass.value = null;
+      window.location.reload(true); //!
     })
     .catch(e => {
       const errorCode = e.code;
@@ -134,6 +136,7 @@ googleBtn.addEventListener('click', () => {
         refs.signUpBtn.classList.add('is-hidden');
         refs.signInBtn.classList.add('is-hidden');
         refs.logOutBtn.classList.remove('is-hidden');
+        window.location.reload(); //!
       }
     })
     .catch(error => {
@@ -175,17 +178,15 @@ refs.signInBtn.addEventListener('click', () => {
   window.addEventListener('keydown', hideSignInEsc);
 });
 refs.logOutBtn.addEventListener('click', () => {
-  firebase
-    .auth()
-    .signOut()
-    .then(
-      PNotify.info({
-        text: 'You have been logged out.',
-        delay: 1000,
-      }),
-      hendlerHomeBtn(),
-      // clearLokalStorage(),
-    );
+  firebase.auth().signOut().then(
+    // PNotify.info({
+    //   text: 'You have been logged out.',
+    //   delay: 1000,
+    // });
+    hendlerHomeBtn(),
+    // clearLokalStorage(),
+    window.location.reload(true), //!
+  );
 });
 function hideSignInModal(e) {
   if (e.target === e.currentTarget) {
