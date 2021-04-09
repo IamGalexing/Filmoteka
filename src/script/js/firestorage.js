@@ -73,6 +73,8 @@ export default class FireStorage {
     }
   }
   showWatched(films) {
+    refs.watchedBtn.disabled = true;
+    refs.queueBtn.disabled = false;
     let watchedFilmsMarkup = '';
     films.forEach(object => {
       watchedFilmsMarkup +=
@@ -124,6 +126,8 @@ export default class FireStorage {
     }
   }
   showQueue(films) {
+    refs.queueBtn.disabled = true;
+    refs.watchedBtn.disabled = false;
     let queueFilmsMarkup = '';
     films.forEach(object => {
       queueFilmsMarkup +=

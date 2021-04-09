@@ -79,19 +79,25 @@ function hendlerLibraryBtn(e) {
   paginationContainer.classList.add('visually-hidden');
 }
 firebase.auth().onAuthStateChanged(function (user) {
+  const firestorage = new FireStorage(user);
+  function watchedClickBtn() {
+    firestorage.getWatchedFromStorage().then(res => {
+      firestorage.showWatched(res);
+      console.log(5);
+    });
+  }
+  function queueClickBtn() {
+    firestorage.getQueueFromStorage().then(res => {
+      firestorage.showQueue(res);
+      console.log(7);
+    });
+  }
   if (user) {
-    const firestorage = new FireStorage(user);
-    refs.watchedBtn.addEventListener('click', () => {
-      firestorage.getWatchedFromStorage().then(res => {
-        firestorage.showWatched(res);
-      });
-    });
-    refs.queueBtn.addEventListener('click', () => {
-      firestorage.getQueueFromStorage().then(res => {
-        firestorage.showQueue(res);
-      });
-    });
+    refs.watchedBtn.addEventListener('click', watchedClickBtn);
+    refs.queueBtn.addEventListener('click', queueClickBtn);
   } else {
+    refs.watchedBtn.removeEventListener('click', watchedClickBtn);
+    refs.queueBtn.removeEventListener('click', queueClickBtn);
     refs.watchedBtn.addEventListener('click', filmsStorage.showWatchedFilms);
     refs.queueBtn.addEventListener('click', filmsStorage.showFilmsQueue);
   }
