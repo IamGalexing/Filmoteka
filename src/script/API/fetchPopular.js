@@ -6,33 +6,12 @@ export default class PopularFilms {
   constructor() {
     this._page = 1;
     this.result;
-    this.ganreObject = {};
-    this.handleGenre();
   }
   async fetchPopular() {
     const response = await fetch(
       `${BASE_URL}/trending/movie/day?api_key=${API_KEY}&page=${this._page}`,
     );
     return response.json();
-  }
-
-  async fetchGenre() {
-    const response = await fetch(
-      `${BASE_URL}/genre/movie/list?api_key=${API_KEY}`,
-    );
-    return response.json();
-  }
-  async handleGenre() {
-    this.ganreObject = await this.fetchGenre();
-  }
-  ganreTranspiler(arr) {
-    const arrayNameGenres = [];
-    arr.forEach(elem =>
-      this.ganreObject.genres
-        .filter(obj => obj.id === elem)
-        .forEach(obj => arrayNameGenres.push(obj.name)),
-    );
-    return arrayNameGenres;
   }
 
   incrementPage() {
