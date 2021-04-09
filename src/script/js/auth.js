@@ -15,10 +15,11 @@ const db = firebase.firestore();
 firebase.auth().onAuthStateChanged(function (user) {
   if (user) {
     // User is signed in.
-
+    hendlerHomeBtn();
     refs.signUpBtn.classList.add('is-hidden');
     refs.signInBtn.classList.add('is-hidden');
     refs.logOutBtn.classList.remove('is-hidden');
+    
     // takeFromDB(user);
 
     PNotify.success({
@@ -183,7 +184,9 @@ refs.logOutBtn.addEventListener('click', () => {
         text: 'You have been logged out.',
         delay: 1000,
       }),
+      location.reload(),
       hendlerHomeBtn(),
+      
       // clearLokalStorage(),
     );
 });
