@@ -19,7 +19,7 @@ firebase.auth().onAuthStateChanged(function (user) {
     refs.signUpBtn.classList.add('is-hidden');
     refs.signInBtn.classList.add('is-hidden');
     refs.logOutBtn.classList.remove('is-hidden');
-    takeFromDB(user);
+    // takeFromDB(user);
 
     PNotify.success({
       title: 'Success!',
@@ -57,7 +57,7 @@ refs.registerForm.addEventListener('submit', e => {
       const user = userCredential.user;
       document.body.style.overflow = 'visible';
       document.querySelector('.signup-wpapper').classList.remove('load');
-      clearLokalStorage();
+      // clearLokalStorage();
       PNotify.success({
         title: 'Success!',
         text: 'Your account successfully created.',
@@ -184,7 +184,7 @@ refs.logOutBtn.addEventListener('click', () => {
         delay: 1000,
       }),
       hendlerHomeBtn(),
-      clearLokalStorage(),
+      // clearLokalStorage(),
     );
 });
 function hideSignInModal(e) {
@@ -224,10 +224,11 @@ function handleDeviceChange(e) {
 }
 
 handleDeviceChange(mobileDevice);
-function clearLokalStorage() {
-  localStorage.setItem('watched-films', []);
-  localStorage.setItem('films-queue', []);
-}
+
+// function clearLokalStorage() {
+//   localStorage.setItem('watched-films', []);
+//   localStorage.setItem('films-queue', []);
+// }
 function takeFromDB(user) {
   let userWatched = [];
   let userQueue = [];
@@ -240,7 +241,6 @@ function takeFromDB(user) {
       if (data.data()) {
         userWatched = data.data().list;
       }
-      localStorage.setItem('watched-films', userWatched);
     });
   db.collection('users')
     .doc(user.uid)
@@ -251,6 +251,15 @@ function takeFromDB(user) {
       if (data.data()) {
         userQueue = data.data().list;
       }
-      localStorage.setItem('films-queue', userQueue);
     });
+}
+function saveOnStorage() {
+  const user = firebase.auth().currentUser;
+  if (user) {
+    db.collection('users')
+      .doc(user.uid)
+      .collection('Watched')
+      .doc('Markup')
+      .set({ list: JSON.stringify(this._watchedFilms) });
+  }
 }
