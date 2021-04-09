@@ -33,13 +33,13 @@ export default class FireStorage {
     this._watched.push(item);
     this.saveWatchedFilms();
     if (refs.libraryBtn.disabled && refs.watchedBtn.disabled)
-      this.showWatched(this._queue);
+      this.showWatched(this._watched);
   }
   removeFromWathedList(index) {
     this._watched.splice(index, 1);
     this.saveWatchedFilms();
     if (refs.libraryBtn.disabled && refs.watchedBtn.disabled)
-      this.showWatched(this._queue);
+      this.showWatched(this._watched);
   }
 
   saveWatchedFilms() {
@@ -85,13 +85,13 @@ export default class FireStorage {
   addToQueueList(item) {
     this._queue.push(item);
     this.saveQueueFilms();
-    if (refs.libraryBtn.disabled && refs.watchedBtn.disabled)
+    if (refs.libraryBtn.disabled && refs.queueBtn.disabled)
       this.showQueue(this._queue);
   }
   removeFromQueueList(index) {
     this._queue.splice(index, 1);
     this.saveQueueFilms();
-    if (refs.libraryBtn.disabled && refs.watchedBtn.disabled)
+    if (refs.libraryBtn.disabled && refs.queueBtn.disabled)
       this.showQueue(this._queue);
   }
 
