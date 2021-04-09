@@ -75,9 +75,7 @@ function hendlerLibraryBtn(e) {
       filmsStorage.showWatchedFilms();
     }
   });
-  if (gallery.textContent) {
-    watchedBtn.classList.add('activeBtn');
-  }
+  watchedBtn.classList.add('activeBtn');
   paginationContainer.classList.add('visually-hidden');
 }
 firebase.auth().onAuthStateChanged(function (user) {
