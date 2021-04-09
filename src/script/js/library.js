@@ -56,7 +56,7 @@ export default function hendlerHomeBtn(e) {
 function hendlerLibraryBtn(e) {
   libraryBtn.disabled = true;
   homeBtn.disabled = false;
-  watchedBtn.disabled = false;
+  watchedBtn.disabled = true;
   queueBtn.disabled = false;
 
   homeBtn.classList.remove('current');
@@ -96,9 +96,9 @@ function hendlerLibraryBtn(e) {
     queueBtn.addEventListener('click', filmsStorage.showFilmsQueue);
   }
 
-  if (gallery.textContent) {
-    watchedBtn.classList.add('activeBtn');
-  }
+
+  // watchedBtn.classList.add('activeBtn');
+  
   paginationContainer.classList.add('visually-hidden');
 }
 
