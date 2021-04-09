@@ -67,6 +67,7 @@ function hendlerLibraryBtn(e) {
   libraryBtnsContainer.classList.remove('visually-hidden');
   filter.classList.add('visually-hidden');
   gallery.innerHTML = '';
+
   const user = firebase.auth().currentUser;
   const firestorage = new FireStorage(user);
   const watchedClickBtn = () => {
