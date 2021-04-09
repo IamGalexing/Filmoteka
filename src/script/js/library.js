@@ -20,6 +20,7 @@ const {
   paginationContainer,
   filter,
   watchedBtn,
+  queueBtn,
   yearPicker,
   genrePicker,
 } = refs;
@@ -30,8 +31,8 @@ libraryBtn.addEventListener('click', e => hendlerLibraryBtn(e));
 export default function hendlerHomeBtn(e) {
   libraryBtn.disabled = false;
   homeBtn.disabled = true;
-  refs.watchedBtn.disabled = false;
-  refs.queueBtn.disabled = false;
+  watchedBtn.disabled = false;
+  queueBtn.disabled = false;
 
   headerBg.classList.remove('library__background');
   libraryBtn.classList.remove('current');
@@ -55,53 +56,52 @@ export default function hendlerHomeBtn(e) {
 function hendlerLibraryBtn(e) {
   libraryBtn.disabled = true;
   homeBtn.disabled = false;
-  refs.watchedBtn.disabled = false;
-  refs.queueBtn.disabled = false;
+  watchedBtn.disabled = true;
+  queueBtn.disabled = false;
 
   homeBtn.classList.remove('current');
   libraryBtn.classList.add('current');
+  watchedBtn.classList.add('activeBtn');
   headerBg.classList.add('library__background');
   searchWrap.classList.add('visually-hidden');
   libraryBtnsContainer.classList.remove('visually-hidden');
   filter.classList.add('visually-hidden');
   gallery.innerHTML = '';
-  firebase.auth().onAuthStateChanged(function (user) {
-    if (user) {
-      const firestorage = new FireStorage(user);
-      firestorage.getWatchedFromStorage().then(res => {
-        firestorage.showWatched(res);
-      });
-    } else {
-      filmsStorage.showWatchedFilms();
-    }
-  });
-  watchedBtn.classList.add('activeBtn');
-  paginationContainer.classList.add('visually-hidden');
-}
-firebase.auth().onAuthStateChanged(function (user) {
+
+  const user = firebase.auth().currentUser;
   const firestorage = new FireStorage(user);
-  function watchedClickBtn() {
+  const watchedClickBtn = () => {
     firestorage.getWatchedFromStorage().then(res => {
       firestorage.showWatched(res);
-      console.log(5);
     });
-  }
-  function queueClickBtn() {
+  };
+  const queueClickBtn = () => {
     firestorage.getQueueFromStorage().then(res => {
       firestorage.showQueue(res);
-      console.log(7);
     });
-  }
+  };
   if (user) {
-    refs.watchedBtn.addEventListener('click', watchedClickBtn);
-    refs.queueBtn.addEventListener('click', queueClickBtn);
+    firestorage.getWatchedFromStorage().then(res => {
+      firestorage.showWatched(res);
+    });
+    watchedBtn.removeEventListener('click', filmsStorage.showWatchedFilms);
+    queueBtn.removeEventListener('click', filmsStorage.showFilmsQueue);
+
+    watchedBtn.addEventListener('click', watchedClickBtn);
+    queueBtn.addEventListener('click', queueClickBtn);
   } else {
-    refs.watchedBtn.removeEventListener('click', watchedClickBtn);
-    refs.queueBtn.removeEventListener('click', queueClickBtn);
-    refs.watchedBtn.addEventListener('click', filmsStorage.showWatchedFilms);
-    refs.queueBtn.addEventListener('click', filmsStorage.showFilmsQueue);
+    filmsStorage.showWatchedFilms();
+    watchedBtn.removeEventListener('click', watchedClickBtn);
+    queueBtn.removeEventListener('click', queueClickBtn);
+    watchedBtn.addEventListener('click', filmsStorage.showWatchedFilms);
+    queueBtn.addEventListener('click', filmsStorage.showFilmsQueue);
   }
-});
+
+
+  // watchedBtn.classList.add('activeBtn');
+  
+  paginationContainer.classList.add('visually-hidden');
+}
 
 const btns = libraryBtnsContainer.getElementsByClassName('button');
 

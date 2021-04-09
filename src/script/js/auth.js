@@ -15,10 +15,11 @@ const db = firebase.firestore();
 firebase.auth().onAuthStateChanged(function (user) {
   if (user) {
     // User is signed in.
-
+    hendlerHomeBtn();
     refs.signUpBtn.classList.add('is-hidden');
     refs.signInBtn.classList.add('is-hidden');
     refs.logOutBtn.classList.remove('is-hidden');
+    
     // takeFromDB(user);
 
     PNotify.success({
@@ -178,15 +179,20 @@ refs.signInBtn.addEventListener('click', () => {
   window.addEventListener('keydown', hideSignInEsc);
 });
 refs.logOutBtn.addEventListener('click', () => {
-  firebase.auth().signOut().then(
-    // PNotify.info({
-    //   text: 'You have been logged out.',
-    //   delay: 1000,
-    // });
-    hendlerHomeBtn(),
-    // clearLokalStorage(),
-    window.location.reload(true), //!
-  );
+
+  firebase
+    .auth()
+    .signOut()
+    .then(
+      PNotify.info({
+        text: 'You have been logged out.',
+        delay: 1000,
+      }),
+      location.reload(),
+      hendlerHomeBtn(),
+      
+      // clearLokalStorage(),
+    );
 });
 function hideSignInModal(e) {
   if (e.target === e.currentTarget) {
