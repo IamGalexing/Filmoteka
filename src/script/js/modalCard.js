@@ -37,8 +37,7 @@ const createMarkup = function (event) {
     //watched
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
-        console.log(user);
-        firestorage = new FireStorage(user);
+        const firestorage = new FireStorage(user);
         firestorage.getWatchedFromStorage().then(result => {
           if (result && result.some(element => element.id === curElement.id)) {
             addToWathedBtn.classList.add('ableToRemove');

@@ -32,10 +32,14 @@ export default class FireStorage {
   addToWatchedList(item) {
     this._watched.push(item);
     this.saveWatchedFilms();
+    if (refs.libraryBtn.disabled && refs.watchedBtn.disabled)
+      this.showWatched(this._queue);
   }
   removeFromWathedList(index) {
     this._watched.splice(index, 1);
     this.saveWatchedFilms();
+    if (refs.libraryBtn.disabled && refs.watchedBtn.disabled)
+      this.showWatched(this._queue);
   }
 
   saveWatchedFilms() {
@@ -68,9 +72,9 @@ export default class FireStorage {
       return JSON.parse(savedFilms);
     }
   }
-  showWatched() {
+  showWatched(films) {
     let watchedFilmsMarkup = '';
-    this._watched.forEach(object => {
+    films.forEach(object => {
       watchedFilmsMarkup +=
         '<li class="movies__list-item">' + object.element + '</li>';
     });
@@ -79,10 +83,14 @@ export default class FireStorage {
   addToQueueList(item) {
     this._queue.push(item);
     this.saveQueueFilms();
+    if (refs.libraryBtn.disabled && refs.watchedBtn.disabled)
+      this.showQueue(this._queue);
   }
   removeFromQueueList(index) {
     this._queue.splice(index, 1);
     this.saveQueueFilms();
+    if (refs.libraryBtn.disabled && refs.watchedBtn.disabled)
+      this.showQueue(this._queue);
   }
 
   saveQueueFilms() {
@@ -115,10 +123,10 @@ export default class FireStorage {
       return JSON.parse(savedFilms);
     }
   }
-  showQueue() {
+  showQueue(films) {
     let queueFilmsMarkup = '';
-    this._queue.forEach(object => {
-      watchedFilmsMarkup +=
+    films.forEach(object => {
+      queueFilmsMarkup +=
         '<li class="movies__list-item">' + object.element + '</li>';
     });
     refs.gallery.innerHTML = queueFilmsMarkup;

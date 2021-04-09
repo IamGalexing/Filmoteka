@@ -2,6 +2,10 @@ import refs from './refs';
 import createCard from './popular-gallery';
 import hendlerInput from './search';
 import FilmsStorage from './local-storage';
+import 'firebase/auth';
+import 'firebase/firestore';
+import firebase from 'firebase/app';
+import FireStorage from './firestorage';
 
 const filmsStorage = new FilmsStorage();
 
@@ -61,15 +65,39 @@ function hendlerLibraryBtn(e) {
   libraryBtnsContainer.classList.remove('visually-hidden');
   filter.classList.add('visually-hidden');
   gallery.innerHTML = '';
-  filmsStorage.showWatchedFilms();
+  firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+      const firestorage = new FireStorage(user);
+      firestorage.getWatchedFromStorage().then(res => {
+        firestorage.showWatched(res);
+      });
+    } else {
+      filmsStorage.showWatchedFilms();
+    }
+  });
   if (gallery.textContent) {
     watchedBtn.classList.add('activeBtn');
   }
   paginationContainer.classList.add('visually-hidden');
 }
-
-refs.watchedBtn.addEventListener('click', filmsStorage.showWatchedFilms);
-refs.queueBtn.addEventListener('click', filmsStorage.showFilmsQueue);
+firebase.auth().onAuthStateChanged(function (user) {
+  if (user) {
+    const firestorage = new FireStorage(user);
+    refs.watchedBtn.addEventListener('click', () => {
+      firestorage.getWatchedFromStorage().then(res => {
+        firestorage.showWatched(res);
+      });
+    });
+    refs.queueBtn.addEventListener('click', () => {
+      firestorage.getQueueFromStorage().then(res => {
+        firestorage.showQueue(res);
+      });
+    });
+  } else {
+    refs.watchedBtn.addEventListener('click', filmsStorage.showWatchedFilms);
+    refs.queueBtn.addEventListener('click', filmsStorage.showFilmsQueue);
+  }
+});
 
 const btns = libraryBtnsContainer.getElementsByClassName('button');
 
