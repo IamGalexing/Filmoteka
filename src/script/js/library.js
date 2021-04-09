@@ -2,6 +2,10 @@ import refs from './refs';
 import createCard from './popular-gallery';
 import hendlerInput from './search';
 import FilmsStorage from './local-storage';
+import 'firebase/auth';
+import 'firebase/firestore';
+import firebase from 'firebase/app';
+import FireStorage from './firestorage';
 
 const filmsStorage = new FilmsStorage();
 
@@ -23,7 +27,7 @@ const {
 homeBtn.addEventListener('click', e => hendlerHomeBtn(e));
 libraryBtn.addEventListener('click', e => hendlerLibraryBtn(e));
 
-function hendlerHomeBtn(e) {
+export default function hendlerHomeBtn(e) {
   libraryBtn.disabled = false;
   homeBtn.disabled = true;
   refs.watchedBtn.disabled = false;
@@ -61,15 +65,43 @@ function hendlerLibraryBtn(e) {
   libraryBtnsContainer.classList.remove('visually-hidden');
   filter.classList.add('visually-hidden');
   gallery.innerHTML = '';
-  filmsStorage.showWatchedFilms();
-  if (gallery.textContent) {
-    watchedBtn.classList.add('activeBtn');
-  }
+  firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+      const firestorage = new FireStorage(user);
+      firestorage.getWatchedFromStorage().then(res => {
+        firestorage.showWatched(res);
+      });
+    } else {
+      filmsStorage.showWatchedFilms();
+    }
+  });
+  watchedBtn.classList.add('activeBtn');
   paginationContainer.classList.add('visually-hidden');
 }
-
-refs.watchedBtn.addEventListener('click', filmsStorage.showWatchedFilms);
-refs.queueBtn.addEventListener('click', filmsStorage.showFilmsQueue);
+firebase.auth().onAuthStateChanged(function (user) {
+  const firestorage = new FireStorage(user);
+  function watchedClickBtn() {
+    firestorage.getWatchedFromStorage().then(res => {
+      firestorage.showWatched(res);
+      console.log(5);
+    });
+  }
+  function queueClickBtn() {
+    firestorage.getQueueFromStorage().then(res => {
+      firestorage.showQueue(res);
+      console.log(7);
+    });
+  }
+  if (user) {
+    refs.watchedBtn.addEventListener('click', watchedClickBtn);
+    refs.queueBtn.addEventListener('click', queueClickBtn);
+  } else {
+    refs.watchedBtn.removeEventListener('click', watchedClickBtn);
+    refs.queueBtn.removeEventListener('click', queueClickBtn);
+    refs.watchedBtn.addEventListener('click', filmsStorage.showWatchedFilms);
+    refs.queueBtn.addEventListener('click', filmsStorage.showFilmsQueue);
+  }
+});
 
 const btns = libraryBtnsContainer.getElementsByClassName('button');
 

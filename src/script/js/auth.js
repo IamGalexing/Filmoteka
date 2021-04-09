@@ -3,16 +3,13 @@ import 'firebase/firestore';
 import firebase from 'firebase/app';
 import refs from './refs';
 import PNotify from '../../../node_modules/pnotify/dist/es/PNotify.js';
+import hendlerHomeBtn from './library';
+import FilmStorage from './local-storage';
 
 const showPassBtn = document.querySelector('.show-pass');
 const fieldPass = document.querySelector('.pass-js');
-showPassBtn.addEventListener('click', () => {
-  if (fieldPass.type === 'password') {
-    fieldPass.type = 'text';
-  } else {
-    fieldPass.type = 'password';
-  }
-});
+const filmStorage = new FilmStorage();
+
 const db = firebase.firestore();
 //Check is signet
 firebase.auth().onAuthStateChanged(function (user) {
@@ -22,42 +19,18 @@ firebase.auth().onAuthStateChanged(function (user) {
     refs.signUpBtn.classList.add('is-hidden');
     refs.signInBtn.classList.add('is-hidden');
     refs.logOutBtn.classList.remove('is-hidden');
+    // takeFromDB(user);
+
     PNotify.success({
       title: 'Success!',
       text: 'You have successfully signed in.',
       delay: 1000,
     });
-    let userWatched = [];
-    let userQueue = [];
-    db.collection('users')
-      .doc(user.uid)
-      .collection('Watched')
-      .doc('Markup')
-      .get()
-      .then(data => {
-        if (data.data()) {
-          userWatched = data.data().list;
-        }
-        localStorage.setItem('watched-films', userWatched);
-      });
-    db.collection('users')
-      .doc(user.uid)
-      .collection('Queue')
-      .doc('Markup')
-      .get()
-      .then(data => {
-        if (data.data()) {
-          userQueue = data.data().list;
-        }
-        localStorage.setItem('films-queue', userQueue);
-      });
   } else {
     // No user is signed in.
     refs.signUpBtn.classList.remove('is-hidden');
     refs.signInBtn.classList.remove('is-hidden');
     refs.logOutBtn.classList.add('is-hidden');
-    localStorage.setItem('watched-films', []);
-    localStorage.setItem('films-queue', []);
   }
 });
 // Create account
@@ -82,16 +55,14 @@ refs.registerForm.addEventListener('submit', e => {
     .then(userCredential => {
       // Signed in
       const user = userCredential.user;
+      document.body.style.overflow = 'visible';
       document.querySelector('.signup-wpapper').classList.remove('load');
-
+      // clearLokalStorage();
       PNotify.success({
         title: 'Success!',
         text: 'Your account successfully created.',
         delay: 1000,
       });
-
-      localStorage.setItem('watched-films', []);
-      localStorage.setItem('films-queue', []);
     })
     .then(() => {
       refs.signUpSpinner.classList.add('is-hidden');
@@ -127,7 +98,7 @@ refs.loginForm.addEventListener('submit', e => {
     .then(userCredential => {
       // Signed in
       const user = userCredential.user;
-
+      document.body.style.overflow = 'visible';
       document.querySelector('.signin-wpapper').classList.remove('load');
     })
     .then(() => {
@@ -182,9 +153,18 @@ refs.signUpBtn.addEventListener('click', () => {
   refs.signUpModal.classList.remove('is-hidden');
   refs.signUpModal.addEventListener('click', hideSignUpModal);
   window.addEventListener('keydown', hideSignUpEsc);
+  document.body.style.overflow = 'hidden';
 });
 refs.signInBtn.addEventListener('click', () => {
+  showPassBtn.addEventListener('click', () => {
+    if (fieldPass.type === 'password') {
+      fieldPass.type = 'text';
+    } else {
+      fieldPass.type = 'password';
+    }
+  });
   refs.signInModal.classList.remove('is-hidden');
+  document.body.style.overflow = 'hidden';
   refs.signUpNowBtn.addEventListener('click', () => {
     refs.signInModal.classList.add('is-hidden');
     refs.signUpModal.classList.remove('is-hidden');
@@ -203,23 +183,33 @@ refs.logOutBtn.addEventListener('click', () => {
         text: 'You have been logged out.',
         delay: 1000,
       }),
+      hendlerHomeBtn(),
+      // clearLokalStorage(),
     );
 });
 function hideSignInModal(e) {
   if (e.target === e.currentTarget) {
     refs.signInModal.classList.add('is-hidden');
+    document.body.style.overflow = 'visible';
   }
 }
 function hideSignUpModal(e) {
   if (e.target === e.currentTarget) {
     refs.signUpModal.classList.add('is-hidden');
+    document.body.style.overflow = 'visible';
   }
 }
 function hideSignInEsc(e) {
-  if (e.key === 'Escape') refs.signInModal.classList.add('is-hidden');
+  if (e.key === 'Escape') {
+    document.body.style.overflow = 'visible';
+    refs.signInModal.classList.add('is-hidden');
+  }
 }
 function hideSignUpEsc(e) {
-  if (e.key === 'Escape') refs.signUpModal.classList.add('is-hidden');
+  if (e.key === 'Escape') {
+    document.body.style.overflow = 'visible';
+    refs.signUpModal.classList.add('is-hidden');
+  }
 }
 
 // hide signUpBtn in mobile screen

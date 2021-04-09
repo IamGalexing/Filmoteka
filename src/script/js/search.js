@@ -1,10 +1,10 @@
 import refs from './refs';
-import CONST from './settings';
 import FetchSearchMovie from '../API/fetchSearchMovie';
-import FetchGenre from '../API/fetchGenre';
 import Pagination from './pagination-api';
 import createMarkup from '../templates/galleryCard.hbs';
+import Search from './spinner';
 import _debounce from 'lodash.debounce';
+import transformMovieObject from './transformMovieObject';
 import {
   showPrevPopPage,
   showNextPopPage,
@@ -25,13 +25,13 @@ const {
   paginationNextButton,
   paginationContainer,
   searchWrap,
-  spinner,
+  genrePicker,
+  yearPicker,
 } = refs;
-const { reservImg } = CONST;
 
 const apiSearchData = new FetchSearchMovie();
-const apiGenreData = new FetchGenre();
 const pagination = new Pagination();
+const spinner = new Search();
 
 searchInputRef.addEventListener(
   'input',
@@ -43,33 +43,23 @@ searchInputRef.addEventListener(
 
 function hendlerInput(e) {
   apiSearchData.query = e;
-  // gallery.innerHTML = '';
+  genrePicker.value = '';
+  yearPicker.value = '';
   if (searchInputRef.value === '') {
     searchWrap.classList.remove('without-after-el');
     return;
   }
   searchWrap.classList.add('without-after-el');
- 
-
-  function noResults() {
-    noResultRef.textContent =
-      'Search result not successful. Enter the correct movie name and try again';
-    setTimeout(function () {
-      noResultRef.textContent = '';
-    }, 2000);
-  }
- 
   apiSearchData.resetPage();
   createCard();
-
- 
 }
+
 function createCard() {
-  // spinner.classList.remove('is-hidden');
   apiSearchData
     .fetchMovies()
     .then(res => {
       scrollWin();
+      spinner.showSpinner();
       if (res === []) return;
       gallery.innerHTML = createMarkup(transformMovieObject(res.results));
       // pagination
@@ -86,10 +76,7 @@ function createCard() {
 
         paginationPrevButton.removeEventListener('click', showPrevFilterPage);
         paginationNextButton.removeEventListener('click', showNextFilterPage);
-        paginationWrapper.removeEventListener(
-          'click',
-          showSelectedFilterPage,
-        );
+        paginationWrapper.removeEventListener('click', showSelectedFilterPage);
 
         paginationPrevButton.addEventListener('click', showPrevSearchPage);
         paginationNextButton.addEventListener('click', showNextSearchPage);
@@ -107,30 +94,19 @@ function createCard() {
         noResults();
         paginationContainer.classList.add('visually-hidden');
       }
+      spinner.hideSpinner();
     })
-    .catch(e => console.log(e))
-    .finally(spinner.classList.add('is-hidden'));
+    .catch(e => console.log(e));
 }
-function transformMovieObject(movies) {
-  movies.forEach(elem => {
-    if (elem.title.length > 38) {
-      elem.title = elem.title.slice(0, 38) + '...';
-    }
-    elem.poster_path
-      ? (elem.poster_path = `https://image.tmdb.org/t/p/w500/${elem.poster_path}`)
-      : (elem.poster_path = reservImg);
-    elem.release_date
-      ? (elem.release_date = elem.release_date.slice(0, 4))
-      : (elem.release_date = 'Unknown');
-    elem.genre_ids
-      ? (elem.genre_ids = apiGenreData
-          .ganreTranspiler(elem.genre_ids)
-          .slice(0, 3)
-          .join(', '))
-      : (elem.genre_ids = 'Unknown');
-  });
-  return movies;
+
+function noResults() {
+  noResultRef.textContent =
+    'Search result not successful. Enter the correct movie name and try again';
+  setTimeout(function () {
+    noResultRef.textContent = '';
+  }, 2000);
 }
+
 const showPrevSearchPage = () => {
   if (apiSearchData.page < 2) return;
   apiSearchData.decrementPage();

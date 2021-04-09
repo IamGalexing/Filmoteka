@@ -2,11 +2,19 @@ import MovieFilter from '../API/fetchFilter';
 import PopularFilms from '../API/fetchPopular';
 import refs from '../js/refs';
 import createMarkup from '../templates/galleryCard.hbs';
-import settings from './settings';
 import Search from './spinner';
+import transformMovieObject from './transformMovieObject';
 import Pagination from './pagination-api';
-import {showPrevPopPage, showNextPopPage, showSelectedPopPage} from './popular-gallery';
-import {showPrevSearchPage, showNextSearchPage, showSelectedSearchPage} from './search';
+import {
+  showPrevPopPage,
+  showNextPopPage,
+  showSelectedPopPage,
+} from './popular-gallery';
+import {
+  showPrevSearchPage,
+  showNextSearchPage,
+  showSelectedSearchPage,
+} from './search';
 
 const spinner = new Search();
 const movieFilter = new MovieFilter();
@@ -15,13 +23,13 @@ const pagination = new Pagination();
 
 yearPickerMenu();
 
-
 let yearValue = '';
 let genreValue = '';
 
 refs.filterInput.forEach(item => {
   item.addEventListener('change', event => {
     movieFilter.resetPage();
+    refs.searchInput.value = '';
     yearValue = refs.yearPicker.value;
     genreValue = refs.genrePicker.value;
     createCard(genreValue, yearValue);
@@ -42,9 +50,18 @@ function createCard(genre, year) {
       refs.paginationNextButton.removeEventListener('click', showNextPopPage);
       refs.paginationWrapper.removeEventListener('click', showSelectedPopPage);
 
-      refs.paginationPrevButton.removeEventListener('click', showPrevSearchPage);
-      refs.paginationNextButton.removeEventListener('click', showNextSearchPage);
-      refs.paginationWrapper.removeEventListener('click', showSelectedSearchPage);
+      refs.paginationPrevButton.removeEventListener(
+        'click',
+        showPrevSearchPage,
+      );
+      refs.paginationNextButton.removeEventListener(
+        'click',
+        showNextSearchPage,
+      );
+      refs.paginationWrapper.removeEventListener(
+        'click',
+        showSelectedSearchPage,
+      );
 
       refs.paginationPrevButton.addEventListener('click', showPrevFilterPage);
       refs.paginationNextButton.addEventListener('click', showNextFilterPage);
@@ -60,21 +77,6 @@ function createCard(genre, year) {
     }
     spinner.hideSpinner();
   });
-}
-
-function transformMovieObject(movies) {
-  movies.forEach(elem => {
-    if (elem.title.length > 38) {
-      elem.title = elem.title.slice(0, 38) + '...';
-    }
-    elem.poster_path
-      ? (elem.poster_path = `https://image.tmdb.org/t/p/w500/${elem.poster_path}`)
-      : (elem.poster_path = settings.reservImg);
-    elem.release_date = elem.release_date.slice(0, 4);
-    elem.genre_ids = fetchPopularMovie.ganreTranspiler(elem.genre_ids);
-    elem.genre_ids = elem.genre_ids.slice(0, 3).join(', ');
-  });
-  return movies;
 }
 
 function scrollWin() {
@@ -115,4 +117,4 @@ function yearPickerMenu() {
   }
   refs.yearPicker.insertAdjacentHTML('beforeend', years);
 }
-export {showPrevFilterPage, showNextFilterPage, showSelectedFilterPage}
+export { showPrevFilterPage, showNextFilterPage, showSelectedFilterPage };
