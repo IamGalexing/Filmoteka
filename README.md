@@ -13,6 +13,7 @@ Technology used:
 - [x] HTML
 - [x] CSS
 - [x] SASS
+- [x] Webpack
 - [x] NPM packages
 
 <a href="https://iamgalexing.github.io/Filmoteka" target="_blank"><img src="https://github.com/IamGalexing/Filmoteka/blob/master/src/images/filmoteka.jpg" alt="screenshot of the main page of project"/></a>
